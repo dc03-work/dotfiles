@@ -1,0 +1,6 @@
+{
+       "semanticTokens.filetypes": ["*"],
+       "coc.preferences.semanticTokensHighlights": true,
+       "diagnostics.enable": true,
+       "colors.enable": true,
+}
