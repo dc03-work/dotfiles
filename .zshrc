@@ -5,6 +5,7 @@ SAVEHIST=2000
 setopt appendhistory extendedglob notify
 unsetopt nomatch
 bindkey -v
+bindkey '^R' history-incremental-search-backward
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#403f4c,underline"
@@ -55,9 +56,18 @@ alias ip='ip -color=auto'
 alias l='ls -lha'
 alias ls='ls --color=auto'
 alias perfreport='perf report --call-graph=graph,caller'
+
 alias vim='vim -T xterm_256color'
 alias vimdiff='vimdiff -T xterm_256color'
+alias vimu='vim -u NONE'
+alias vimsum='vim gcc/testsuite/gcc/gcc.sum'
+alias vimlog='vim gcc/testsuite/gcc/gcc.log'
+alias vimsumpp='vim gcc/testsuite/g++/g++.sum'
+alias vimlogpp='vim gcc/testsuite/g++/g++.log'
+
 alias venv='python3 -m virtualenv venv && source ./venv/bin/activate'
+alias less='less -r'
+alias clera=clear
 
 function isfile() {
     [[ -n "${1}" ]] && ([[ -f "${1}" ]] && echo 'Yes' || echo 'No') || echo 'Expected file name';
@@ -67,7 +77,7 @@ function isdir() {
     [[ -n "${1}" ]] && ([[ -d "${1}" ]] && echo 'Yes' || echo 'No') || echo 'Expected dir name';
 }
 
-export PATH=/home/dhruvc/.cargo/bin:$PATH
+export PATH=/home/dhruvc/usr/bin:$PATH
 
 source ~/GIT/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

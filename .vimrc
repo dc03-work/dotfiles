@@ -6,7 +6,7 @@ endif
 
 filetype plugin indent on
 
-set listchars=space:·,tab:→_,trail:·
+set listchars=space:·,tab:→\ ,trail:·
 set list
 
 set t_u7=
@@ -91,7 +91,7 @@ inoremap <silent><expr><Tab>   coc#pum#visible() ? coc#pum#next(1) :       "\<Ta
 inoremap <silent><expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) :       "\<C-h>"
 inoremap <silent><expr><CR>    coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
 
-map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set the <leader> key
@@ -274,7 +274,7 @@ Plug 'google/vim-maktaba'
 Plug 'google/vim-glaive'
 
 " Editing help
-Plug 'wfxr/minimap.vim'
+" Plug 'wfxr/minimap.vim'
 Plug 'preservim/nerdtree'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
@@ -302,6 +302,8 @@ Plug 'mengelbrecht/lightline-bufferline'
 
 " LSP and autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'rhysd/vim-clang-format'
 
 call plug#end()
 
