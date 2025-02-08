@@ -1,0 +1,245 @@
+# This is a demo config to showcase some of the most important commands.
+# It is meant to be changed and configured, as it is intentionally kept sparse.
+# For a (much) more advanced configuration example see my dotfiles:
+# https://github.com/FelixKratz/dotfiles
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+##### Bar Appearance #####
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+sketchybar --bar position=top \
+                 height=25 \
+                 blur_radius=30 \
+                 color=0x00000000 \
+                 margin=0 \
+                 padding_left=0 \
+                 padding_right=0 \
+                 topmost=window
+
+BACKGROUND=0xff495156
+DARKTEXT=0xff434f55
+UNFOCUSED=0xff859289
+
+GREEN=0xffa7c080
+TEAL=0xff83c092
+BLUE=0xff7fbbb3
+
+RED=0xffe67e80
+ORANGE=0xffe69875
+YELLOW=0xffdbbc7f
+
+PADDING_LEFT=4
+PADDING_RIGHT=4
+
+##### Changing Defaults #####
+
+default=(
+  padding_left=0
+  padding_right=0
+  icon.font="JetBrainsMono Nerd Font:Bold:17.0"
+  label.font="JetBrainsMono Nerd Font:Bold:15.0"
+  icon.color=0xffffffff
+  label.color=0xffffffff
+  icon.padding_left=$PADDING_LEFT
+  icon.padding_right=$PADDING_RIGHT
+  label.padding_left=$PADDING_LEFT
+  label.padding_right=$PADDING_RIGHT
+)
+
+sketchybar --default "${default[@]}"
+
+###############################################################################
+# Left side
+################################################################################
+
+sketchybar --add item chevron0 left \
+           --set chevron0 icon= \
+                         icon.padding_left=0 \
+                         icon.padding_right=0 \
+                         icon.color=$GREEN \
+                         icon.y_offset=1 \
+                         background.color=$GREEN \
+                         background.height=25 \
+                         label.drawing=off
+
+sketchybar --add item hostname left \
+           --set hostname icon= label="$(hostname)" \
+                 padding_left=0 \
+                 icon.color=$DARKTEXT \
+                 icon.padding_left=0 \
+                 icon.y_offset=-1 \
+                 label.color=$DARKTEXT \
+                 label.padding_right=$((PADDING_RIGHT * 2)) \
+                 background.color=$GREEN \
+                 background.height=25
+
+
+sketchybar --add item chevron1 left \
+           --set chevron1 icon= \
+                         icon.padding_left=0 \
+                         icon.padding_right=0 \
+                         icon.color=$GREEN \
+                         icon.y_offset=1 \
+                         background.color=$BACKGROUND \
+                         background.height=25 \
+                         label.drawing=off
+
+sketchybar --add event aerospace_workspace_change
+
+###############################################################################
+# Workspaces list
+################################################################################
+
+for sid in $(aerospace list-workspaces --all); do
+    sketchybar --add item chevron.space.$sid.pre left \
+               --set chevron.space.$sid.pre icon= \
+                             icon.padding_left=0 \
+                             icon.padding_right=0 \
+                             icon.color=$BACKGROUND \
+                             icon.y_offset=1 \
+                             background.color=$BACKGROUND \
+                             background.height=25 \
+                             label.drawing=off
+
+    sketchybar --add item space.$sid left \
+        --subscribe space.$sid aerospace_workspace_change \
+        --set space.$sid \
+        background.color=$BACKGROUND \
+        background.corner_radius=0 \
+        background.height=25 \
+        background.drawing=on \
+        icon.drawing=off \
+        label.align=center \
+        label.padding_left=$PADDING_LEFT \
+        label.padding_right=$PADDING_RIGHT \
+        label.color=$UNFOCUSED \
+        label="$sid" \
+        click_script="aerospace workspace $sid" \
+        script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+
+    sketchybar --add item chevron.space.$sid.post left \
+               --set chevron.space.$sid.post icon= \
+                             icon.padding_left=0 \
+                             icon.padding_right=0 \
+                             icon.color=$BACKGROUND \
+                             icon.y_offset=1 \
+                             background.color=$BACKGROUND \
+                             background.height=25 \
+                             label.drawing=off
+
+done
+
+sketchybar --add item chevron2 left \
+           --set chevron2 icon= \
+                         icon.padding_left=0 \
+                         icon.padding_right=0 \
+                         icon.color=$BACKGROUND \
+                         icon.y_offset=1 \
+                         icon.background.color=$BLUE \
+                         label.drawing=off
+
+sketchybar --add item front_app left \
+           --set front_app \
+                 icon.drawing=off \
+                 label.color=$DARKTEXT \
+                 label.padding_left=$(($PADDING_LEFT * 2)) \
+                 label.padding_right=$(($PADDING_RIGHT * 3)) \
+                 background.height=24 \
+                 background.color=$BLUE \
+                 script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+sketchybar --add item chevron3 left \
+           --set chevron3 icon= \
+                         icon.padding_left=0 \
+                         icon.padding_right=0 \
+                         icon.color=$BLUE \
+                         icon.y_offset=1 \
+                         label.drawing=off
+
+###############################################################################
+# Right side
+################################################################################
+
+sketchybar --add item chevron4 right \
+           --set chevron4 icon= \
+                         icon.font="JetBrainsMono Nerd Font:Bold:19.0" \
+                         icon.padding_left=0 \
+                         icon.padding_right=-1 \
+                         icon.y_offset=0 \
+                         icon.color=$RED \
+                         background.color=$RED \
+                         background.height=25 \
+                         label.drawing=off
+
+sketchybar --add item clock right \
+           --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
+                 icon.padding_left=$(($PADDING_LEFT * 2)) \
+                 icon.color=$DARKTEXT \
+                 label.color=$DARKTEXT \
+                 label.padding_right=$PADDING_RIGHT \
+                 background.height=25 \
+                 background.color=$RED \
+                 padding_left=0 \
+                 padding_right=0
+
+sketchybar --add item chevron5 right \
+           --set chevron5 icon= \
+                         icon.font="JetBrainsMono Nerd Font:Bold:19.0" \
+                         icon.padding_left=0 \
+                         icon.padding_right=-1 \
+                         icon.y_offset=0 \
+                         icon.color=$RED \
+                         background.height=25 \
+                         background.color=$ORANGE \
+                         label.drawing=off
+
+sketchybar --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+                 icon.padding_left=$(($PADDING_LEFT * 2)) \
+                 icon.color=$DARKTEXT \
+                 label.color=$DARKTEXT \
+                 label.padding_right=$(($PADDING_RIGHT * 2)) \
+                 background.height=25 \
+                 background.color=$ORANGE \
+           --subscribe volume volume_change
+
+sketchybar --add item chevron6 right \
+           --set chevron6 icon= \
+                         icon.font="JetBrainsMono Nerd Font:Bold:19.0" \
+                         icon.padding_left=0 \
+                         icon.padding_right=-1 \
+                         icon.y_offset=0 \
+                         icon.color=$ORANGE \
+                         background.color=$YELLOW \
+                         background.height=25 \
+                         label.drawing=off
+
+sketchybar --add item battery right \
+           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+                 icon.padding_left=$(($PADDING_LEFT * 2)) \
+                 icon.color=$DARKTEXT \
+                 label.color=$DARKTEXT \
+                 label.padding_right=$(($PADDING_RIGHT * 2)) \
+                 background.height=25 \
+                 background.color=$YELLOW \
+           --subscribe battery system_woke power_source_change
+
+sketchybar --add item chevron7 right \
+           --set chevron7 icon= \
+                         icon.font="JetBrainsMono Nerd Font:Bold:19.0" \
+                         icon.padding_left=0 \
+                         icon.padding_right=-1 \
+                         icon.y_offset=0 \
+                         icon.color=$YELLOW \
+                         background.height=25 \
+                         label.drawing=off \
+
+##### Force all scripts to run the first time (never do this in a script) #####
+
+sketchybar --update
