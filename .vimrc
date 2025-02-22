@@ -6,15 +6,15 @@ endif
 
 filetype plugin indent on
 
-set listchars=space:·,tab:→\ ,trail:·
-set list
-
 set t_u7=
 "set ambw=double
 set nowrap
 set encoding=UTF-8
 set mouse=a
 set updatetime=500
+
+set listchars=space:·,tab:→\ ,trail:·
+set list
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab options
