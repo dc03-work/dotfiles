@@ -87,9 +87,16 @@ function! CheckBackspace() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr><Tab>   coc#pum#visible() ? coc#pum#next(1) :       "\<Tab>"
-inoremap <silent><expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) :       "\<C-h>"
-inoremap <silent><expr><CR>    coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+" inoremap <silent><expr> <CR>
+"       \ coc#pum#visible() ? coc#_select_confirm() :
+"       \ CheckBackspace() ? "\<CR>" :
+"       \ coc#refresh()
+" inoremap <silent><expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) :       "\<C-h>"
+" inoremap <silent><expr><CR>     coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
 
 nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 
